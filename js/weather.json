@@ -1,0 +1,43 @@
+{
+    "coord": {
+        "lon": -77.79,
+        "lat": 42.16
+    },
+    "weather": [
+        {
+            "id": 800,
+            "main": "Clear",
+            "description": "clear sky",
+            "icon": "01d"
+        }
+    ],
+    "base": "stations",
+    "main": {
+        "temp": 28.4,
+        "pressure": 1025,
+        "humidity": 50,
+        "temp_min": 26.6,
+        "temp_max": 30.2
+    },
+    "visibility": 16093,
+    "wind": {
+        "speed": 19.46,
+        "deg": 330,
+        "gust": 11.3
+    },
+    "clouds": {
+        "all": 1
+    },
+    "dt": 1520186160,
+    "sys": {
+        "type": 1,
+        "id": 2140,
+        "message": 0.0048,
+        "country": "US",
+        "sunrise": 1520163613,
+        "sunset": 1520204744
+    },
+    "id": 0,
+    "name": "Andover",
+    "cod": 200
+}

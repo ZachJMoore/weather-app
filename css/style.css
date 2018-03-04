@@ -1,0 +1,294 @@
+img,
+embed,
+object,
+video {
+    max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Montserrat", "Open Sans", sans-serif;
+    color: #0009;
+}
+
+p,
+a,
+span,
+small {
+    font-family: "Open Sans", sans-serif;
+    color: #0009;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+    padding-top: 100px;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.flex-between {
+    justify-content: space-between;
+}
+
+.flex-column-left {
+    align-items: flex-start;
+}
+
+.space-around {
+    justify-content: space-around;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/*Unless needed, all new code goes below this. Dont change your defaults*/
+
+.nav {
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /*    flex-direction: column;*/
+    position: fixed;
+    top: 0;
+    left: 0;
+
+}
+
+#nav-checkbox {
+    opacity: 1;
+    position: fixed;
+    top: -100px;
+    left: -100px;
+}
+
+.nav-menu-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55px;
+    height: 55px;
+    background-color: #34b6ce;
+    box-shadow: 3px 3px 25px #0005;
+    transition: border-radius .6s;
+}
+
+.nav-menu-button:hover {
+    cursor: pointer;
+    background-color: #49425b;
+}
+
+.nav-bars-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    width: 40px;
+    height: 40px;
+}
+
+.nav-bars {
+    width: 100%;
+    height: 10%;
+    background-color: white;
+    transition: .35s;
+}
+
+#nav-checkbox:checked ~ .nav-menu-button .nav-bars-container .nav-bar-1 {
+    transform: translateY(13.55px) rotate(45deg) scaleX(1.15)
+}
+
+#nav-checkbox:checked ~ .nav-menu-button .nav-bars-container .nav-bar-2 {
+    opacity: 0;
+    transform: translateX(-100px);
+}
+
+#nav-checkbox:checked ~ .nav-menu-button .nav-bars-container .nav-bar-3 {
+    transform: translateY(-13.55px) rotate(-45deg) scaleX(1.15)
+}
+
+#nav-checkbox:focus ~ .nav-menu-button {
+    background-color: #49425b
+}
+
+.nav-links {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /*    flex-direction: column;*/
+}
+
+.nav-link-text {
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: 700;
+    color: white;
+    background-color: #34b6ce;
+    padding: 13px;
+    border: 3px solid l;
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(0,-60px);
+    box-shadow: 3px 3px 25px #0005;
+    transition: transform .3s, opacity .3s, visibility .3s;
+}
+
+.nav-change-location {
+    border: none;
+}
+
+.nav-change-location:hover {
+    cursor: pointer;
+}
+.nav-change-location:active {
+    box-shadow:3px 3px 25px #0005, inset 3px 3px 0 #fff5
+}
+
+#nav-checkbox:checked ~ .nav-links .nav-home {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(0)
+}
+
+#nav-checkbox:checked ~ .nav-links .nav-about {
+    transition-delay: .05s;
+    visibility: visible;
+    opacity: 1;
+    transform: translate(0)
+}
+
+#nav-checkbox:checked ~ .nav-links .nav-change-location {
+    transition-delay: .1s;
+    visibility: visible;
+    opacity: 1;
+    transform: translate(0)
+}
+
+.nav-link-text:hover, .nav-link-text:focus {
+    outline: none;
+    background-color: #49425b;
+}
+
+/*Main Content*/
+
+.weather-container{
+    width: 590px;
+    max-width: 92vw;
+}
+
+.weather-current{
+    padding-bottom: 15px;
+    width: 100%;
+    box-shadow: 8px 8px 45px #0005;
+}
+
+.weather-header {
+    padding: 0 10px;
+    background-color: #34b6ce;
+}
+
+.weather-header-title{
+    margin-bottom: 5px;
+    color: white;
+}
+.weather-header-subtitle{
+    margin: 8px 0;
+    color: white;
+}
+
+.weather-refresh{
+    color: white;
+    font-size: 20px;
+    padding: 8px;
+    background-color: #8bdddd;
+    border-radius: 5px;
+    border: 3px solid #8bdddd;
+}
+.weather-refresh:hover, .weather-refresh:focus{
+    outline: none;
+    box-shadow: inset 1px 1px 10px #0005;
+}
+.weather-refresh:active{
+    border-left: 3px solid #0005;
+    border-top: 3px solid #0005;
+}
+.weather-main{
+    padding: 15px;
+}
+.weather-subsection{
+    margin: 10px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.weather-subsection-text{
+    font-size: 20px;
+}
+.temperature-text{
+    font-size: 25px;
+}
+#temperatureText{
+    font-size: 75px;
+}
+.temperature-high{
+    margin: 0 5px;
+}
+.temperature-low{
+    margin: 0 5px;
+}
+#descriptionText{
+    font-size: 25px;
+}
+
+.weather-five-day{
+    width: 100%;
+    height: 120px;
+    margin: 25px 0;
+    box-shadow: 8px 8px 45px #0005;
+}
+
+@media screen and (max-width: 500px){
+    nav{
+        flex-direction: column;
+    }
+    .nav-menu-button{
+        margin-bottom: 6px;
+        border-radius: 0 0 10px 0;
+    }
+    .nav-links{
+        flex-direction: column;
+    }
+    .nav-link-text{
+        transform: translate(-160px);
+        margin: 6px;
+    }
+}

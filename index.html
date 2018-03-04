@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Weather App</title>
+    <!--Meta-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--TODO: Change the content of this meta tag-->
+    <meta name="description" content="Handy Dandy Weather App">
+
+    <!--External Links-->
+    <!--http://via.placeholder.com/100x100-->
+    <!--fonts-->
+<!--    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900|Open+Sans:300,400" rel="stylesheet">-->
+    <!--font awesome-->
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+    <!--Internal Links-->
+    <!--css-->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+    <div class="flex-container column">
+        <nav class="nav">
+            <input type="checkbox" id="nav-checkbox">
+            <label class="nav-menu-button" for="nav-checkbox">
+                <section class="nav-bars-container">
+                    <div class="nav-bars nav-bar-1"></div>
+                    <div class="nav-bars nav-bar-2"></div>
+                    <div class="nav-bars nav-bar-3"></div>
+                </section>
+            </label>
+            <section class="nav-links">
+                <a class="nav-link-text nav-home" href="index.html">Home</a>
+                <a class="nav-link-text nav-about" href="#about">About</a>
+                <button class="nav-link-text nav-change-location" id="changeLocationButton">Change Location</button>
+            </section>
+        </nav>
+        <main>
+            <section class="weather-container flex-container column">
+                <section class="weather-current">
+                    <section class="weather-header flex-container flex-between">
+                        <section>
+                            <h2 class="weather-header-title" id="weatherLocationText">Placeholder</h2>
+                            <p class="weather-header-subtitle">is currently</p>
+                        </section>
+                        <button class="weather-refresh" id="weatherRefreshButton">Refresh</button>
+                    </section>
+                    <section class="weather-main flex-container flex-between">
+                        <section class="temperature-container flex-container column">
+                            <span class="temperature-text" >
+                                <span id="temperatureText">32<span></span></span>ºF
+                            </span>
+                            <section class="flex-container">
+                                <span class="temperature-high">
+                                High: <span id="temperatureHighText">35</span>º
+                                </span>
+                                <span class="temperature-low">
+                                    Low: <span id="temperatureLowText">29</span>º
+                                </span>
+                            </section>
+                        </section>
+                        <section class="description-container flex-container column">
+                            <span id="descriptionText">Clear Sky</span>
+                        </section>
+                    </section>
+                    <hr width="90%">
+                    <section class="barometrics-container flex-container weather-subsection">
+                        <span class="humidity-text weather-subsection-text">Humidity: <span id="humidityText">50</span></span>
+                        <span class="pressure-text weather-subsection-text">Pressure: <span id="pressureText">11.3</span></span>
+                    </section>
+                    <hr width="90%">
+                    <section class="wind-container flex-container weather-subsection">
+                        <span class="wind-speed-text weather-subsection-text">Wind Speed: <span id="windSpeedText">19.46</span></span>
+                        <span class="wind-gust-text weather-subsection-text">Gust: <span id="windGustText">11.3</span></span>
+                        <span class="wind-direction-text weather-subsection-text">Direction: <span id="windDirectionText">330</span>º</span>
+                    </section>
+                    <hr width="90%">
+                    <section class="sun-container flex-container weather-subsection">
+                        <span class="sunrise-text weather-subsection-text">Sunrise: <span id="sunriseText">In the morning</span></span>
+                        <span class="sunset-text weather-subsection-text">Sunset: <span id="sunsetText">Sometime Tonight</span></span>
+                    </section>
+                </section>
+                <section class="weather-five-day">
+                </section>
+            </section>
+        </main>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
