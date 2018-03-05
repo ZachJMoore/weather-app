@@ -3,9 +3,16 @@
 let weatherRefreshButton = document.querySelector("#weatherRefreshButton");
 let changeLocationButton = document.querySelector("#changeLocationButton");
 
+let buttonRateLimitOn = false
 weatherRefreshButton.addEventListener("click", () => {
     console.log("refresh button clicked");
-    handler.sendInfo()
+    if (buttonRateLimitOn === false) {
+        handler.sendInfo()
+        buttonRateLimitOn = true
+        setTimeout(() => {
+            buttonRateLimitOn = false
+        }, 10000)
+    }
 })
 changeLocationButton.addEventListener("click", () => {
     console.log("change location button clicked");
@@ -27,10 +34,12 @@ let data = {
                 })
         })
     },
-    openWeatherLink: function (zip = this.zip) {
+    openWeatherLink: function (zip = this.zip()) {
         return (`https://api.openweathermap.org/data/2.5/weather?zip=${zip}&units=imperial&APPID=92512e4bf262ab538384be4cf1c2ad73`)
     },
-    zip: window.localStorage.getItem("zip")
+    zip: () => {
+        return window.localStorage.getItem("zip")
+    }
 }
 
 
@@ -43,43 +52,40 @@ let handler = {
     },
 
     setZip: function () {
-        //        let zip = prompt("Enter 5 digit zip code")
-        //        window.localStorage.setItem("zip", parseInt(zip))
-
         swal({
-                text: "Enter a 5 digit zip code.",
-                content: "input",
-                button: {
-                    text: "Go",
-                    closeModal: false,
-                },
-            })
-            .then((zip) => {
-                return new Promise((resolve, reject) => {
-                    if ((zip.length > 5)) {
-                        reject();
-                    }
-                    window.localStorage.setItem("zip", parseInt(zip));
-                    resolve();
-                })
-            }).then(() => {
-                return swal({
-                    title: "Congrats!",
-                    text: "Zip code set successfully!",
+            title: "Enter a 5 digit zip code.",
+            content: "input",
+            button: {
+                text: "Go",
+            },
+        }).then((text) => {
+            if (text === null) {
+                return
+            }
+            text = parseInt(text)
+            console.log(text)
+            if (isNaN(text)) {
+                swal("Please enter a number")
+                    .then(() => {
+                        handler.setZip();
+                    })
+            } else if (text.toString().length === 5) {
+                swal({
+                    title: "Zip Code Set!",
                     icon: "success",
-                    button: true,
-                });
-            }).then(() => {
-                handler.sendInfo();
-            })
-            .catch((err) => {
-                if (err) {
-                    swal("Oh no! Something went wrong! Maybe the zip code was invalid?");
-                } else {
-                    swal.stopLoading();
-                    swal.close();
-                }
-            });
+                }).then(() => {
+                    window.localStorage.setItem("zip", text);
+                    handler.sendInfo()
+                    return
+                })
+            } else {
+                swal("Invalid Zip Code")
+                    .then(() => {
+                        handler.setZip();
+                    })
+            }
+        })
+
     },
     checkForZip: function () {
         if (window.localStorage.getItem("zip") === null) {
@@ -88,9 +94,9 @@ let handler = {
     },
     sendInfo: function () {
         data.getWeatherJson().then((response) => {
-            console.log(response)
-            view.setInfo(response.name, response.main.temp, response.main.temp_min, response.main.temp_max, response.weather[0].description, response.main.humidity, response.main.pressure, response.wind.speed, response.wind.gust, response.wind.deg, response.sys.sunrise, response.sys.sunset)
+            console.log("sending this to view.setInfo", response)
             // (name, current, low, high, description, humidity, pressure, wind, gust, direction, sunrise, sunset)
+            view.setInfo(response.name, response.main.temp, response.main.temp_min, response.main.temp_max, response.weather[0].description, response.main.humidity, response.main.pressure, response.wind.speed, response.wind.gust, response.wind.deg, response.sys.sunrise, response.sys.sunset)
         })
     }
 }

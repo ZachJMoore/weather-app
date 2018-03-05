@@ -10,7 +10,9 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+.swal-text,
+.swal-title{
     font-family: "Montserrat", "Open Sans", sans-serif;
     color: #0009;
 }
