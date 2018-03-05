@@ -82,6 +82,4 @@ let view = {
     }
 }
 
-window.onload = () => {
-    handler.init()
-}
+handler.init()
