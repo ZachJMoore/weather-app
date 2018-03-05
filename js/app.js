@@ -1,5 +1,17 @@
 "use strict";
 
+let weatherRefreshButton = document.querySelector("#weatherRefreshButton");
+let changeLocationButton = document.querySelector("#changeLocationButton");
+
+weatherRefreshButton.addEventListener("click", () => {
+    console.log("refresh button clicked");
+    handler.sendInfo()
+})
+changeLocationButton.addEventListener("click", () => {
+    console.log("change location button clicked");
+    handler.setZip()
+})
+
 let data = {
     getWeatherJson: function (url = this.openWeatherLink()) {
         return new Promise((resolve, reject) => {
@@ -31,8 +43,43 @@ let handler = {
     },
 
     setZip: function () {
-        let zip = prompt("Enter 5 digit zip code")
-        window.localStorage.setItem("zip", parseInt(zip))
+        //        let zip = prompt("Enter 5 digit zip code")
+        //        window.localStorage.setItem("zip", parseInt(zip))
+
+        swal({
+                text: "Enter a 5 digit zip code.",
+                content: "input",
+                button: {
+                    text: "Go",
+                    closeModal: false,
+                },
+            })
+            .then((zip) => {
+                return new Promise((resolve, reject) => {
+                    if ((zip.length > 5)) {
+                        reject();
+                    }
+                    window.localStorage.setItem("zip", parseInt(zip));
+                    resolve();
+                })
+            }).then(() => {
+                return swal({
+                    title: "Congrats!",
+                    text: "Zip code set successfully!",
+                    icon: "success",
+                    button: true,
+                });
+            }).then(() => {
+                handler.sendInfo();
+            })
+            .catch((err) => {
+                if (err) {
+                    swal("Oh no! Something went wrong! Maybe the zip code was invalid?");
+                } else {
+                    swal.stopLoading();
+                    swal.close();
+                }
+            });
     },
     checkForZip: function () {
         if (window.localStorage.getItem("zip") === null) {
@@ -41,6 +88,7 @@ let handler = {
     },
     sendInfo: function () {
         data.getWeatherJson().then((response) => {
+            console.log(response)
             view.setInfo(response.name, response.main.temp, response.main.temp_min, response.main.temp_max, response.weather[0].description, response.main.humidity, response.main.pressure, response.wind.speed, response.wind.gust, response.wind.deg, response.sys.sunrise, response.sys.sunset)
             // (name, current, low, high, description, humidity, pressure, wind, gust, direction, sunrise, sunset)
         })
@@ -62,10 +110,10 @@ let view = {
         let windGustText = document.querySelector("#windGustText");
         let windDirectionText = document.querySelector("#windDirectionText");
 
-        let sunriseText = document.querySelector("#sunriseText");
-        let sunsetText = document.querySelector("#sunsetText");
-        let sunriseObject = new Date(sunrise);
-        let sunsetObject = new Date(sunset);
+        //        let sunriseText = document.querySelector("#sunriseText");
+        //        let sunsetText = document.querySelector("#sunsetText");
+        //        let sunriseObject = new Date(sunrise);
+        //        let sunsetObject = new Date(sunset);
 
         weatherLocationText.textContent = name;
         temperatureText.textContent = current;
@@ -77,9 +125,11 @@ let view = {
         windSpeedText.textContent = wind;
         windGustText.textContent = gust;
         windDirectionText.textContent = direction;
-        sunriseText.textContent = sunriseObject.getHours() + ":" + sunriseObject.getSeconds();
-        sunsetText.textContent = sunsetObject.getHours() + ":" + sunsetObject.getSeconds();
+
+        //        sunriseText.textContent = sunriseObject.getHours() + ":" + sunriseObject.getSeconds();
+        //        sunsetText.textContent = sunsetObject.getHours() + ":" + sunsetObject.getSeconds();
     }
 }
 
 handler.init()
+console.log("Loaded")
