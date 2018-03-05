@@ -16,7 +16,7 @@ let data = {
         })
     },
     openWeatherLink: function (zip = this.zip) {
-        return (`http://api.openweathermap.org/data/2.5/weather?zip=${zip}&units=imperial&APPID=92512e4bf262ab538384be4cf1c2ad73`)
+        return (`https://api.openweathermap.org/data/2.5/weather?zip=${zip}&units=imperial&APPID=92512e4bf262ab538384be4cf1c2ad73`)
     },
     zip: window.localStorage.getItem("zip")
 }
