@@ -204,13 +204,13 @@ body {
 /*Main Content*/
 
 .weather-container{
-    width: 590px;
     max-width: 92vw;
 }
 
 .weather-current{
+    width: 590px;
     padding-bottom: 15px;
-    width: 100%;
+    margin: 15px;
     box-shadow: 8px 8px 45px #0005;
 }
 
@@ -246,6 +246,7 @@ body {
 }
 .weather-main{
     padding: 15px;
+    justify-content: space-around;
 }
 .weather-subsection{
     margin: 10px;
@@ -272,13 +273,59 @@ body {
 }
 
 .weather-five-day{
-    width: 100%;
-    height: 120px;
-    margin: 25px 0;
+    width: auto;
+    padding: 10px;
+    margin: 15px;
+    justify-content: space-around;
     box-shadow: 8px 8px 45px #0005;
 }
 
-@media screen and (max-width: 500px){
+.weather-five-day-items{
+    padding: 15px;
+    margin: 5px;
+    border: 2px solid #0005;
+    border-radius: 10px;
+}
+
+.weather-five-day-title{
+    margin-right: 10px;
+}
+
+.weather-five-day-date-text{
+    font-size: 20px;
+    border-bottom: 2px solid #0005;
+}
+
+.weather-five-day-temperature-text{
+    font-size: 30px
+}
+
+.weather-five-day-description-text{
+    font-size: 20px;
+}
+
+footer{
+    margin: 200px 0;
+}
+
+.footer-title{
+    color: #34b6ce
+}
+
+.footer-fa-custom {
+    font-size: 2.827em;
+    margin: 5px;
+    padding: 15px
+}
+.footer-social{
+    color: #34b6ce
+}
+
+.footer-social:hover{
+    color: #49425b
+}
+
+@media screen and (max-width: 520px){
     nav{
         flex-direction: column;
     }

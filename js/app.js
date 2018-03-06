@@ -1,5 +1,6 @@
 "use strict";
 
+let placeholder
 
 //set buttons for easy use
 let weatherRefreshButton = document.querySelector("#weatherRefreshButton");
@@ -9,13 +10,13 @@ let changeLocationButton = document.querySelector("#changeLocationButton");
 let buttonRateLimitOn = false
 weatherRefreshButton.addEventListener("click", () => {
     console.log("refresh button clicked");
-    // Max requests for my api key is 60 per minute. This limits refreshs from this button to only every 10 seconds.
+    // Max requests for my api key is 60 per minute. This limits refreshs from this button to only every 2 minutes.
     if (buttonRateLimitOn === false) {
         handler.sendInfo()
         buttonRateLimitOn = true
         setTimeout(() => {
             buttonRateLimitOn = false
-        }, 10000)
+        }, 120000)
     }
 })
 
@@ -28,7 +29,7 @@ changeLocationButton.addEventListener("click", () => {
 //handle all the data in this object
 let data = {
     //fetch and return a json for a given link.
-    getWeatherJson: function (url = this.openWeatherLink()) {
+    getWeatherJson: function (url = this.openWeatherCurrent()) {
         return new Promise((resolve, reject) => {
             fetch(url)
                 .then((response) => {
@@ -43,8 +44,11 @@ let data = {
         })
     },
     //set the location using a zip code. Can be put in manually or by the one stored in localstorage
-    openWeatherLink: function (zip = this.zip()) {
+    openWeatherCurrent: function (zip = this.zip()) {
         return (`https://api.openweathermap.org/data/2.5/weather?zip=${zip}&units=imperial&APPID=92512e4bf262ab538384be4cf1c2ad73`)
+    },
+    openWeatherForecast: function (zip = this.zip()) {
+        return (`https://api.openweathermap.org/data/2.5/forecast?zip=${zip}&units=imperial&APPID=92512e4bf262ab538384be4cf1c2ad73`)
     },
     zip: () => {
         return window.localStorage.getItem("zip")
@@ -114,6 +118,50 @@ let handler = {
             // (name, current, low, high, description, humidity, pressure, wind, gust, direction, sunrise, sunset)
             view.setInfo(response.name, response.main.temp, response.main.temp_min, response.main.temp_max, response.weather[0].description, response.main.humidity, response.main.pressure, response.wind.speed, response.wind.gust, response.wind.deg, response.sys.sunrise, response.sys.sunset)
         })
+        data.getWeatherJson(data.openWeatherForecast()).then((response) => {
+            console.log(response);
+            let passThrough = {
+                first: [0, 0, response.list[3].weather[0].description, response.list[3].dt_txt.slice(5, 10)],
+                second: [0, 0, response.list[11].weather[0].description, response.list[11].dt_txt.slice(5, 10)],
+                third: [0, 0, response.list[19].weather[0].description, response.list[19].dt_txt.slice(5, 10)],
+                forth: [0, 0, response.list[27].weather[0].description, response.list[27].dt_txt.slice(5, 10)],
+                fifth: [0, 0, response.list[35].weather[0].description, response.list[35].dt_txt.slice(5, 10)]
+            }
+            response.list.forEach((item, index)=>{
+                if (index >= 0 && index <= 7){
+                    passThrough.first[0] += item.main.temp
+                    passThrough.first[1]++
+                } else if (index >= 8 && index <= 15){
+                    passThrough.second[0] += item.main.temp
+                    passThrough.second[1]++
+                } else if (index >= 16 && index <= 23){
+                    passThrough.third[0] += item.main.temp
+                    passThrough.third[1]++
+                } else if (index >= 24 && index <= 31){
+                    passThrough.forth[0] += item.main.temp
+                    passThrough.forth[1]++
+                } else if (index >= 32 && index <= 39){
+                    passThrough.fifth[0] += item.main.temp
+                    passThrough.fifth[1]++
+                }
+            })
+            passThrough.first[0] = (passThrough.first[0] / passThrough.first[1]).toFixed(2);
+            passThrough.second[0] = (passThrough.second[0] / passThrough.second[1]).toFixed(2);
+            passThrough.third[0] = (passThrough.third[0] / passThrough.third[1]).toFixed(2);
+            passThrough.forth[0] = (passThrough.forth[0] / passThrough.forth[1]).toFixed(2);
+            passThrough.fifth[0] = (passThrough.fifth[0] / passThrough.fifth[1]).toFixed(2);
+            console.log(passThrough)
+
+            let weatherFiveDayContainer = document.querySelector("#weatherFiveDayContainer");
+            weatherFiveDayContainer.innerHTML = `<h2 class="weather-five-day-title">5 Day Forecast: </h2>`;
+
+            view.createFiveDayItem({date: passThrough.first[3], temperature: passThrough.first[0], description: passThrough.first[2]})
+            view.createFiveDayItem({date: passThrough.second[3], temperature: passThrough.second[0], description: passThrough.second[2]})
+            view.createFiveDayItem({date: passThrough.third[3], temperature: passThrough.third[0], description: passThrough.third[2]})
+            view.createFiveDayItem({date: passThrough.forth[3], temperature: passThrough.forth[0], description: passThrough.forth[2]})
+            view.createFiveDayItem({date: passThrough.fifth[3], temperature: passThrough.fifth[0], description: passThrough.fifth[2]})
+
+        })
     }
 }
 
@@ -152,6 +200,15 @@ let view = {
 
         //        sunriseText.textContent = sunriseObject.getHours() + ":" + sunriseObject.getSeconds();
         //        sunsetText.textContent = sunsetObject.getHours() + ":" + sunsetObject.getSeconds();
+    },
+    createFiveDayItem: (object) => {
+        let weatherFiveDayContainer = document.querySelector("#weatherFiveDayContainer");
+        let newSection = document.createElement("section");
+        newSection.className = "weather-five-day-items flex-container column";
+        newSection.innerHTML = `<span class="weather-five-day-date-text">${object.date}</span>
+                                <span class="weather-five-day-temperature-text">${object.temperature}<span>º</span></span>
+                                <span class="weather-five-day-description-text">${object.description}</span>`;
+        weatherFiveDayContainer.appendChild(newSection)
     }
 }
 
